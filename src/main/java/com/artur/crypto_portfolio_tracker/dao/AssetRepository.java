@@ -1,0 +1,7 @@
+package com.artur.crypto_portfolio_tracker.dao;
+
+import com.artur.crypto_portfolio_tracker.entity.Asset;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AssetRepository extends JpaRepository<Asset, Integer> {
+}

@@ -3,6 +3,7 @@ package com.artur.crypto_portfolio_tracker.entity;
 import jakarta.persistence.*;
 import org.hibernate.action.internal.OrphanRemovalAction;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -26,12 +27,35 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Asset> assets;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name="users_roles",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id"))
+    private Collection<Role> roles = new ArrayList<>();
+
     public User() {}
 
-    public User(int enabled, String password, String userName) {
+    public User(int enabled, String password, String userName, Collection<Asset> assets) {
         this.enabled = enabled;
         this.password = password;
         this.userName = userName;
+        this.assets = assets;
+    }
+
+    public User(Collection<Role> roles, Collection<Asset> assets, int enabled, String password, String userName) {
+        this.roles = roles;
+        this.assets = assets;
+        this.enabled = enabled;
+        this.password = password;
+        this.userName = userName;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 
     public Collection<Asset> getAssets() {
