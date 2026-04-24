@@ -3,6 +3,7 @@ package com.artur.crypto_portfolio_tracker.service;
 import com.artur.crypto_portfolio_tracker.dao.UserRepository;
 import com.artur.crypto_portfolio_tracker.entity.Role;
 import com.artur.crypto_portfolio_tracker.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,11 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService{
 
     public UserRepository userRepository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User findByUserName(String username) {

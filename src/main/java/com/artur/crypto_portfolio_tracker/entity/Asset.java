@@ -3,6 +3,8 @@ package com.artur.crypto_portfolio_tracker.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name="asset")
 public class Asset {
@@ -19,10 +21,10 @@ public class Asset {
     private String name;
 
     @Column(name="quantity")
-    private int quantity;
+    private BigDecimal quantity;
 
     @Column(name="purchasePrice")
-    private double purchasePrice;
+    private BigDecimal purchasePrice;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -30,7 +32,7 @@ public class Asset {
 
     public Asset(){}
 
-    public Asset(User user, double purchasePrice, int quantity, String name, String symbol) {
+    public Asset(User user, BigDecimal purchasePrice, BigDecimal quantity, String name, String symbol) {
         this.user = user;
         this.purchasePrice = purchasePrice;
         this.quantity = quantity;
@@ -46,19 +48,19 @@ public class Asset {
         this.user = user;
     }
 
-    public double getPurchasePrice() {
+    public BigDecimal getPurchasePrice() {
         return purchasePrice;
     }
 
-    public void setPurchasePrice(double purchasePrice) {
+    public void setPurchasePrice(BigDecimal purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
-    public int getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 

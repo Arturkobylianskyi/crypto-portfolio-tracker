@@ -3,9 +3,26 @@ package com.artur.crypto_portfolio_tracker.service;
 import com.artur.crypto_portfolio_tracker.dao.AssetRepository;
 import com.artur.crypto_portfolio_tracker.entity.Asset;
 import com.artur.crypto_portfolio_tracker.entity.User;
+import jakarta.persistence.TypedQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface AssetService extends AssetRepository {
-    List<Asset> findAllByUser(User user);
+@Service
+public class AssetService {
+
+    private final AssetRepository assetRepository;
+
+    @Autowired
+    public AssetService(AssetRepository assetRepository) {
+        this.assetRepository = assetRepository;
+    }
+
+
+    public List<Asset> findAllByUserId(int userId){
+        return assetRepository.findAllByUserId(userId);
+    }
+
+
 }
