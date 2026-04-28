@@ -2,12 +2,16 @@ package com.artur.crypto_portfolio_tracker.client;
 
 import com.artur.crypto_portfolio_tracker.config.WebClientConfig;
 import com.artur.crypto_portfolio_tracker.dto.CryptoApiResponse;
+import com.artur.crypto_portfolio_tracker.dto.CryptoSymbolDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CryptoApiClient {
@@ -24,28 +28,39 @@ public class CryptoApiClient {
         this.webClient = webClient;
     }
 
-    public BigDecimal getCryptoPrice(String symbol){
+
+
+    public Map<String, BigDecimal> getCryptoPrice(List<String> symbols){
+        if(symbols==null || symbols.isEmpty()){
+            return new HashMap<>();
+        }
+
+        // join currency for batch request
+        String joinedSymbols = String.join("+", symbols);
+
         CryptoApiResponse response = webClient.get()
-                .uri(apiURL+"?symbol={symbol}", symbol)
+                .uri(apiURL+"?symbol={symbol}", joinedSymbols)
                 .header("Authorization", "Bearer "+apiKey)
                 .retrieve()
                 .bodyToMono(CryptoApiResponse.class)
                 .block();
 
-        if (response == null || !"success".equals(response.getStatus())) {
-//            System.out.println("this case 1");
-            return BigDecimal.ZERO;
+        // convinient way to find all prices
+        Map<String, BigDecimal> pricesMap = new HashMap<>();
+
+        if (response != null && "success".equals(response.getStatus())) {
+
+            for(CryptoSymbolDTO symbolDTO: response.getSymbols()){
+                pricesMap.put(symbolDTO.getSymbol(), symbolDTO.getLast());
+            }
+        }
+        else {
+//            throw RuntimeException("erro")
+            return new HashMap<>(); // silent error
         }
 
-        if (response.getSymbols() == null || response.getSymbols().isEmpty()) {
-//            System.out.println("this case 2");
 
-            return BigDecimal.ZERO;
-        }
-
-        BigDecimal price = response.getSymbols().get(0).getLast();
-
-        return price;
+        return pricesMap;
     }
 
     public void getBitcoinPrice(){

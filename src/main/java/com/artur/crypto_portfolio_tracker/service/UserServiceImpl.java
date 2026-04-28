@@ -1,6 +1,7 @@
 package com.artur.crypto_portfolio_tracker.service;
 
 import com.artur.crypto_portfolio_tracker.dao.UserRepository;
+import com.artur.crypto_portfolio_tracker.dto.UserDTO;
 import com.artur.crypto_portfolio_tracker.entity.Role;
 import com.artur.crypto_portfolio_tracker.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +39,45 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User findById(int userId) {
+        Optional<User> result = userRepository.findById(userId);
+        User theUser = null;
+
+        if(result.isPresent()){
+            theUser = result.get();
+        }
+        else{
+            throw new RuntimeException("User not found id: "+ userId);
+        }
+
+        return theUser;
+    }
+
+    @Override
+    public User save(User user) {
+        User dbUser = userRepository.save(user);
+        return dbUser;
+    }
+
+    @Override
+    public List<UserDTO> findAllAndConvertToDTO() {
+        List<User> allUsers = userRepository.findAll();
+        List<UserDTO> dtoUsers = new ArrayList<>();
+
+        for(User user: allUsers){
+            UserDTO userDTO = new UserDTO();
+
+            userDTO.setUserName(user.getUserName());
+            userDTO.setEnabled(user.getEnabled());
+            userDTO.setId(user.getId());
+
+            dtoUsers.add(userDTO);
+        }
+
+        return dtoUsers;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User theUser = findByUserName(username);
 
@@ -49,6 +91,11 @@ public class UserServiceImpl implements UserService{
                 theUser.getPassword(),
                 authorities
         );
+    }
+
+
+    public List<User> findAll(){
+        return userRepository.findAll();
     }
 
 }
