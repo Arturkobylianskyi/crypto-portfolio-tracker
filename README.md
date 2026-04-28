@@ -1,4 +1,4 @@
-
+![Status](https://img.shields.io/badge/Status-In--Development-yellow?style=for-the-badge&logo=github)
 # Crypto Portfolio Tracker REST API
 
 RESTful API for tracking cryptocurrency portfolios with real-time price integration, built with **Java** and **Spring Boot**.
