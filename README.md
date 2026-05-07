@@ -22,7 +22,7 @@ The API uses Basic Authentication with BCrypt password hashing.
 ### Users Management
 | HTTP Method | Endpoint | Action | Status |
 | :--- | :--- | :--- | :--- |
-| `POST` | `/api/users` | Register a new user | 🔴 Not implemented |
+| `POST` | `/api/users` | Register a new user | ✅ Functional |
 | `GET` | `/api/users/{userId}` | Get user profile info (DTO) | ✅ Functional |
 | `GET` | `/api/users` | Get list of all users | ✅ Functional |
 
