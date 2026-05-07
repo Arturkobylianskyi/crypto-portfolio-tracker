@@ -69,7 +69,7 @@ public class CryptoPortfolioTrackerApplication {
 				sol.setUser(testUser);
 				assetRepository.save(sol);
 
-				System.out.println("The database has been successfully populated! User 'artur' and 3 coins (BTC, ETH, SOL) have been created.");
+				System.out.println("The database has been successfully populated! User 'user' and 3 coins (BTC, ETH, SOL) have been created.");
 			} else {
 				System.out.println("The test data already exists, we skip filling it in.");
 			}

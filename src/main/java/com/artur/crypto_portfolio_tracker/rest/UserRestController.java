@@ -25,6 +25,7 @@ public class UserRestController {
         return userService.findAllAndConvertToDTO();
     }
 
+    //TODO: exception handle for cases where user is not founded
     @GetMapping("/{userId}")
     public UserDTO getUserInfo(@PathVariable int userId){
 
@@ -38,6 +39,7 @@ public class UserRestController {
         return userResponse;
     }
 
+    // TODO: password must be encrypted before saving
     @PostMapping()
     public UserDTO createNewUser(@RequestBody User user){
 

@@ -30,7 +30,7 @@ The API uses Basic Authentication with BCrypt password hashing.
 | HTTP Method | Endpoint | Action | Status |
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/users/{userId}/portfolio` | Get portfolio with live profit/loss | ✅ Functional |
-| `GET` | `/api/users/{userId}/summary` | Get aggregate portfolio summary | 🔴 Not implemented |
+| `GET` | `/api/users/{userId}/summary` | Get aggregate portfolio summary | ✅ Functional |
 
 ### Assets Management (Database CRUD)
 | HTTP Method | Endpoint | Action | Status |

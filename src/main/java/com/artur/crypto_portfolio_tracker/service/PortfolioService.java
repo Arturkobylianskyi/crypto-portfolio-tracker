@@ -6,6 +6,8 @@ import com.artur.crypto_portfolio_tracker.dto.PortfolioSummaryDTO;
 import com.artur.crypto_portfolio_tracker.entity.Asset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ public class PortfolioService {
 
     private AssetService assetService;
     private CryptoApiClient cryptoApiClient;
+    // debug
+    private static final Logger log = LoggerFactory.getLogger(PortfolioService.class);
 
     @Autowired
     public PortfolioService(AssetService assetService, CryptoApiClient cryptoApiClient) {
@@ -26,6 +30,7 @@ public class PortfolioService {
     }
 
     public List<PortfolioItemDTO> getPortfolio(int userId){
+
         List<Asset> assets = assetService.findAllByUserId(userId);
         if(assets.isEmpty()){
             return new ArrayList<>();
@@ -38,9 +43,7 @@ public class PortfolioService {
         }
 
         // Make only one request to api
-        // TODO: debug request apiClient
         Map<String, BigDecimal> currentPrices = cryptoApiClient.getCryptoPrice(coinSymbols);
-        System.out.println(currentPrices);
 
         List<PortfolioItemDTO> items = new ArrayList<>();
 
@@ -71,7 +74,7 @@ public class PortfolioService {
     }
 
     public PortfolioSummaryDTO getPortfolioOverview(int userId){
-        List<Asset> assets = assetService.findAllByUserId(userId);
+
         List<PortfolioItemDTO> items = getPortfolio(userId);
 
         BigDecimal totalValue = BigDecimal.ZERO;

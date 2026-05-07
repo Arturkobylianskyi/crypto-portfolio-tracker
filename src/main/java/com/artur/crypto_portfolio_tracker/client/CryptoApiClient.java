@@ -3,6 +3,9 @@ package com.artur.crypto_portfolio_tracker.client;
 import com.artur.crypto_portfolio_tracker.config.WebClientConfig;
 import com.artur.crypto_portfolio_tracker.dto.CryptoApiResponse;
 import com.artur.crypto_portfolio_tracker.dto.CryptoSymbolDTO;
+import com.artur.crypto_portfolio_tracker.service.PortfolioService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ public class CryptoApiClient {
     private final WebClient webClient;
 
     private static final String apiURL = "https://api.freecryptoapi.com/v1/getData";
+    private static final Logger log = LoggerFactory.getLogger(CryptoApiClient.class);
 
     @Value("${crypto.api.key}")
     private String apiKey;
@@ -28,8 +32,6 @@ public class CryptoApiClient {
         this.webClient = webClient;
     }
 
-
-
     public Map<String, BigDecimal> getCryptoPrice(List<String> symbols){
         if(symbols==null || symbols.isEmpty()){
             return new HashMap<>();
@@ -38,40 +40,39 @@ public class CryptoApiClient {
         // join currency for batch request
         String joinedSymbols = String.join("+", symbols);
 
+
         CryptoApiResponse response = webClient.get()
-                .uri(apiURL+"?symbol={symbol}", joinedSymbols)
+                .uri(apiURL+"?symbol="+joinedSymbols )
                 .header("Authorization", "Bearer "+apiKey)
                 .retrieve()
                 .bodyToMono(CryptoApiResponse.class)
                 .block();
 
-        // convinient way to find all prices
+        // convenient way to find all prices
         Map<String, BigDecimal> pricesMap = new HashMap<>();
 
         if (response != null && "success".equals(response.getStatus())) {
-
             for(CryptoSymbolDTO symbolDTO: response.getSymbols()){
                 pricesMap.put(symbolDTO.getSymbol(), symbolDTO.getLast());
             }
         }
         else {
-//            throw RuntimeException("erro")
             return new HashMap<>(); // silent error
         }
-
 
         return pricesMap;
     }
 
-    public void getBitcoinPrice(){
+    public BigDecimal getBitcoinPrice(){
         CryptoApiResponse response = webClient.get()
-                .uri(apiURL)
+                .uri(apiURL+"?symbol=BTC")
                 .header("Authorization", "Bearer "+apiKey)
                 .retrieve()
                 .bodyToMono(CryptoApiResponse.class)
                 .block();
 
         BigDecimal price = response.getSymbols().get(0).getLast();
-        System.out.println(price);
+
+        return price;
     }
 }
