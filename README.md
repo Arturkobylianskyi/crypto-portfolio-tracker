@@ -7,7 +7,7 @@ RESTful API for tracking cryptocurrency portfolios with real-time price integrat
 * **Java 25**
 * **Spring Boot 4** (Web, Data JPA, Security, WebFlux)
 * **Spring Security 6** (Custom UserDetailsService, Basic Auth)
-* **Hibernate / Spring Data JPA** * **MySQL** * **WebClient** (External API integration with `freecryptoapi.com`)
+* **Hibernate / Spring Data JPA** / **MySQL** / **WebClient** (External API integration with `freecryptoapi.com`)
 * **Maven**
 * **Postman** (Collection for testing included)
 
