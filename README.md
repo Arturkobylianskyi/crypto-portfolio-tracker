@@ -36,7 +36,7 @@ The API uses Basic Authentication with BCrypt password hashing.
 | HTTP Method | Endpoint | Action | Status |
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/users/{userId}/assets` | Get raw assets from DB | ✅ Functional |
-| `POST` | `/api/users/{userId}/assets` | Add new coin to portfolio | 🔴 Not implemented |
+| `POST` | `/api/users/{userId}/assets` | Add new coin to portfolio |  ✅ Functional |
 | `PUT` | `/api/assets/{assetId}` | Update asset record | 🔴 Not implemented |
 | `PATCH` | `/api/assets/{assetId}` | Partially update asset quantity | 🔴 Not implemented |
 | `DELETE` | `/api/assets/{assetId}` | Delete asset from DB | 🔴 Not implemented |
