@@ -9,7 +9,7 @@ RESTful API for tracking cryptocurrency portfolios with real-time price integrat
 * **Spring Security 6** (Custom UserDetailsService, Basic Auth)
 * **Hibernate / Spring Data JPA** / **MySQL** / **WebClient** (External API integration with `freecryptoapi.com`)
 * **Maven**
-* **Postman** (Collection for testing included)
+* **Postman** `postman/crypto-portfolio-tracker.json` to test all endpoints.
 
 ## Security & Access
 The API uses Basic Authentication with BCrypt password hashing.
