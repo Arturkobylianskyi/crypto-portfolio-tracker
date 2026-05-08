@@ -11,6 +11,7 @@ import com.artur.crypto_portfolio_tracker.service.AssetService;
 import com.artur.crypto_portfolio_tracker.service.PortfolioService;
 import com.artur.crypto_portfolio_tracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -33,17 +34,20 @@ public class PortfolioRestController {
     }
 
     @GetMapping("/{userId}/portfolio")
+    @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
     public List<PortfolioItemDTO> giveMyPortfolio(@PathVariable int userId){
         return portfolioService.getPortfolio(userId);
     }
 
 
     @GetMapping("/{userId}/summary")
+    @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
     public PortfolioSummaryDTO giveStatistic(@PathVariable int userId){
         return portfolioService.getPortfolioOverview(userId);
     }
 
     @GetMapping("/{userId}/assets")
+    @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
     public List<AssetDTO> showAssets(@PathVariable int userId){
         List<Asset> assetList = userService.giveAssetsByUserId(userId);
 
@@ -61,6 +65,7 @@ public class PortfolioRestController {
     }
 
     @PostMapping("/{userId}/assets")
+    @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
     public AssetDTO addAsset(@PathVariable int userId, @RequestBody Asset asset){
         asset.setId(0);
         asset.setUser(userService.findById(userId));

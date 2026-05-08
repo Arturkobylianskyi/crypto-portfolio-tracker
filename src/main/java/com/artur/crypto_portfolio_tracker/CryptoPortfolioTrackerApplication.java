@@ -3,8 +3,10 @@ package com.artur.crypto_portfolio_tracker;
 import com.artur.crypto_portfolio_tracker.client.CryptoApiClient;
 import com.artur.crypto_portfolio_tracker.config.WebClientConfig;
 import com.artur.crypto_portfolio_tracker.dao.AssetRepository;
+import com.artur.crypto_portfolio_tracker.dao.RoleRepository;
 import com.artur.crypto_portfolio_tracker.dao.UserRepository;
 import com.artur.crypto_portfolio_tracker.entity.Asset;
+import com.artur.crypto_portfolio_tracker.entity.Role;
 import com.artur.crypto_portfolio_tracker.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -31,18 +33,25 @@ public class CryptoPortfolioTrackerApplication {
 	@Bean
 	public CommandLineRunner loadData(UserRepository userRepository,
 									  AssetRepository assetRepository,
+									  RoleRepository roleRepository,
 									  PasswordEncoder passwordEncoder) {
 		return args -> {
-			// check if user exist
-			if (userRepository.findUserByUserName("user") == null) {
+			if (roleRepository.findByName("ROLE_USER") == null) {
+				roleRepository.save(new Role("ROLE_USER"));
+			}
+			if (roleRepository.findByName("ROLE_ADMIN") == null) {
+				roleRepository.save(new Role("ROLE_ADMIN"));
+			}
 
 				// create user
+			if (userRepository.findUserByUserName("user") == null) {
 				User testUser = new User();
 				testUser.setUserName("user");
 				testUser.setPassword(passwordEncoder.encode("test"));
-
-				// save user
+				testUser.setEnabled(1);
+				testUser.getRoles().add(roleRepository.findByName("ROLE_USER")); // ← роль
 				userRepository.save(testUser);
+
 
 				// 2. create conins
 
@@ -72,6 +81,15 @@ public class CryptoPortfolioTrackerApplication {
 				System.out.println("The database has been successfully populated! User 'user' and 3 coins (BTC, ETH, SOL) have been created.");
 			} else {
 				System.out.println("The test data already exists, we skip filling it in.");
+			}
+
+			if (userRepository.findUserByUserName("admin") == null) {
+				User admin = new User();
+				admin.setUserName("admin");
+				admin.setPassword(passwordEncoder.encode("admin"));
+				admin.setEnabled(1);
+				admin.getRoles().add(roleRepository.findByName("ROLE_ADMIN"));
+				userRepository.save(admin);
 			}
 		};
 	}

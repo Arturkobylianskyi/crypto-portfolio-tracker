@@ -4,6 +4,7 @@ import com.artur.crypto_portfolio_tracker.dto.UserDTO;
 import com.artur.crypto_portfolio_tracker.entity.User;
 import com.artur.crypto_portfolio_tracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +22,14 @@ public class UserRestController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserDTO> findAllUsers(){
         return userService.findAllAndConvertToDTO();
     }
 
     //TODO: exception handle for cases where user is not founded
     @GetMapping("/{userId}")
+    @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
     public UserDTO getUserInfo(@PathVariable int userId){
 
         User theUser = userService.findById(userId);

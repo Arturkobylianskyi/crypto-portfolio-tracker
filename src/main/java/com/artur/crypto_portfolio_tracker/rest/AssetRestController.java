@@ -7,6 +7,7 @@ import com.artur.crypto_portfolio_tracker.entity.User;
 import com.artur.crypto_portfolio_tracker.service.AssetService;
 import com.artur.crypto_portfolio_tracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -32,6 +33,7 @@ public class AssetRestController {
 
 
     @PutMapping()
+    @PreAuthorize("isAuthenticated()")
     public AssetDTO updateAsset(@RequestBody Asset asset){
         Asset dbAsset = assetService.save(asset);
 
@@ -45,6 +47,7 @@ public class AssetRestController {
     }
 
     @PatchMapping("/{assetId}")
+    @PreAuthorize("isAuthenticated()")
     public AssetDTO patchAsset(@PathVariable int assetId,
                                @RequestBody Map<String, Object> patchPayload){
 
@@ -70,6 +73,7 @@ public class AssetRestController {
     }
 
     @DeleteMapping("/{assetId}")
+    @PreAuthorize("isAuthenticated()")
     public String deleteItem(@PathVariable int assetId){
 
         assetService.deleteById(assetId);

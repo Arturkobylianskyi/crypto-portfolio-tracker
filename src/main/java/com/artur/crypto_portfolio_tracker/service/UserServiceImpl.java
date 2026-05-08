@@ -84,18 +84,18 @@ public class UserServiceImpl implements UserService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User theUser = findByUserName(username);
 
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        theUser.getRoles().forEach(role->{
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        });
+        Collection<SimpleGrantedAuthority> authorities = theUser.getRoles()
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
 
-        return new org.springframework.security.core.userdetails.User(
+        return new CustomUserDetails(
+                theUser.getId(),       // ← тепер передаємо id
                 theUser.getUserName(),
                 theUser.getPassword(),
                 authorities
         );
     }
-
 
     public List<User> findAll(){
         return userRepository.findAll();
