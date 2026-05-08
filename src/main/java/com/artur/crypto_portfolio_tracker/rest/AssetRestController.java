@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/assets")
 public class AssetRestController {
 
     private final AssetService assetService;
@@ -26,35 +26,16 @@ public class AssetRestController {
         this.userService = userService;
     }
 
-    @GetMapping("/{userId}/assets")
-    public List<AssetDTO> showAssets(@PathVariable int userId){
-        List<Asset> assetList = userService.giveAssetsByUserId(userId);
 
-        List<AssetDTO> assetsDTO = new ArrayList<>();
-        for(Asset asset: assetList){
-            AssetDTO tempAsset = new AssetDTO();
-            tempAsset.setId(asset.getId());
-            tempAsset.setSymbol(asset.getSymbol());
-            tempAsset.setPurchasePrice(asset.getPurchasePrice());
-            tempAsset.setQuantity(asset.getQuantity());
-            assetsDTO.add(tempAsset);
-        }
-
-        return assetsDTO;
-    }
-
-    @PostMapping("/{userId}/assets")
-    public AssetDTO addAsset(@PathVariable int userId, @RequestBody Asset asset){
-        asset.setId(0);
-        asset.setUser(userService.findById(userId));
-
-        Asset bdAsset = assetService.save(asset);
+    @PutMapping()
+    public AssetDTO updateAsset(@RequestBody Asset asset){
+        Asset dbAsset = assetService.save(asset);
 
         AssetDTO tempAsset = new AssetDTO();
-        tempAsset.setId(bdAsset.getId());
-        tempAsset.setSymbol(bdAsset.getSymbol());
-        tempAsset.setPurchasePrice(bdAsset.getPurchasePrice());
-        tempAsset.setQuantity(bdAsset.getQuantity());
+        tempAsset.setId(dbAsset.getId());
+        tempAsset.setSymbol(dbAsset.getSymbol());
+        tempAsset.setPurchasePrice(dbAsset.getPurchasePrice());
+        tempAsset.setQuantity(dbAsset.getQuantity());
 
         return tempAsset;
     }

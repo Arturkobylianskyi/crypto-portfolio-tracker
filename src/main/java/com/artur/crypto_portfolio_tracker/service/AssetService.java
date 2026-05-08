@@ -30,5 +30,8 @@ public class AssetService {
         return assetRepository.save(asset);
     }
 
+    public Asset findById(int assetsId){
+        return assetRepository.findById(assetsId);
+    }
 
 }
