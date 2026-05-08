@@ -11,8 +11,6 @@ public class AssetDTO {
 
     private String symbol;
 
-    private String name;
-
     private BigDecimal quantity;
 
     private BigDecimal purchasePrice;
@@ -20,10 +18,9 @@ public class AssetDTO {
     public AssetDTO() {
     }
 
-    public AssetDTO(int id, String symbol, String name, BigDecimal quantity, BigDecimal purchasePrice) {
+    public AssetDTO(int id, String symbol, BigDecimal quantity, BigDecimal purchasePrice) {
         this.id = id;
         this.symbol = symbol;
-        this.name = name;
         this.quantity = quantity;
         this.purchasePrice = purchasePrice;
     }
@@ -44,13 +41,6 @@ public class AssetDTO {
         this.symbol = symbol;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public BigDecimal getQuantity() {
         return quantity;
@@ -73,7 +63,6 @@ public class AssetDTO {
         return "AssetDTO{" +
                 "id=" + id +
                 ", symbol='" + symbol + '\'' +
-                ", name='" + name + '\'' +
                 ", quantity=" + quantity +
                 ", purchasePrice=" + purchasePrice +
                 '}';

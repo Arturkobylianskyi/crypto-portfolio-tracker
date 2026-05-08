@@ -34,7 +34,6 @@ public class AssetRestController {
         for(Asset asset: assetList){
             AssetDTO tempAsset = new AssetDTO();
             tempAsset.setId(asset.getId());
-            tempAsset.setName(asset.getName());
             tempAsset.setSymbol(asset.getSymbol());
             tempAsset.setPurchasePrice(asset.getPurchasePrice());
             tempAsset.setQuantity(asset.getQuantity());
@@ -45,13 +44,19 @@ public class AssetRestController {
     }
 
     @PostMapping("/{userId}/assets")
-    public void addAsset(@PathVariable int userId, @RequestBody Asset asset){
+    public AssetDTO addAsset(@PathVariable int userId, @RequestBody Asset asset){
         asset.setId(0);
         asset.setUser(userService.findById(userId));
 
         Asset bdAsset = assetService.save(asset);
 
-        System.out.println(bdAsset.toString());
+        AssetDTO tempAsset = new AssetDTO();
+        tempAsset.setId(bdAsset.getId());
+        tempAsset.setSymbol(bdAsset.getSymbol());
+        tempAsset.setPurchasePrice(bdAsset.getPurchasePrice());
+        tempAsset.setQuantity(bdAsset.getQuantity());
+
+        return tempAsset;
     }
 
 }

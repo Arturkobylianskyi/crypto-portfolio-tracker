@@ -17,13 +17,11 @@ public class Asset {
     @Column(name="symbol")
     private String symbol;
 
-    @Column(name="name")
-    private String name;
 
     @Column(name="quantity")
     private BigDecimal quantity;
 
-    @Column(name="purchasePrice")
+    @Column(name="purchase_price")
     private BigDecimal purchasePrice;
 
     @ManyToOne
@@ -32,11 +30,10 @@ public class Asset {
 
     public Asset(){}
 
-    public Asset(User user, BigDecimal purchasePrice, BigDecimal quantity, String name, String symbol) {
+    public Asset(User user, BigDecimal purchasePrice, BigDecimal quantity, String symbol) {
         this.user = user;
         this.purchasePrice = purchasePrice;
         this.quantity = quantity;
-        this.name = name;
         this.symbol = symbol;
     }
 
@@ -64,14 +61,6 @@ public class Asset {
         this.quantity = quantity;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getSymbol() {
         return symbol;
     }
@@ -93,7 +82,6 @@ public class Asset {
         return "Asset{" +
                 "id=" + id +
                 ", symbol='" + symbol + '\'' +
-                ", name='" + name + '\'' +
                 ", quantity=" + quantity +
                 ", purchasePrice=" + purchasePrice +
                 ", user=" + user +
