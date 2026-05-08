@@ -56,7 +56,7 @@ The API uses Basic Authentication with BCrypt password hashing.
    mvn spring-boot:run
    ```
 5. On the first run, `DataSeeder` will automatically create a test user:
-    * **Username:** `artur`
+    * **Username:** `user`
     * **Password:** `user`
 
 ---
