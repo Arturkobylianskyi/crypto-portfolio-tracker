@@ -4,6 +4,7 @@ import com.artur.crypto_portfolio_tracker.dao.AssetRepository;
 import com.artur.crypto_portfolio_tracker.entity.Asset;
 import com.artur.crypto_portfolio_tracker.entity.User;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,11 @@ public class AssetService {
 
     public List<Asset> findAllByUserId(int userId){
         return assetRepository.findAllByUserId(userId);
+    }
+
+    @Transactional
+    public Asset save(Asset asset){
+        return assetRepository.save(asset);
     }
 
 

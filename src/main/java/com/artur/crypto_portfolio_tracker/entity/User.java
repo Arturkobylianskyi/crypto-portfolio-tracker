@@ -5,6 +5,7 @@ import org.hibernate.action.internal.OrphanRemovalAction;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name="user")
@@ -24,8 +25,8 @@ public class User {
     @Column(name="enabled")
     private int enabled;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Collection<Asset> assets;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Asset> assets;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name="users_roles",
@@ -35,14 +36,14 @@ public class User {
 
     public User() {}
 
-    public User(int enabled, String password, String userName, Collection<Asset> assets) {
+    public User(int enabled, String password, String userName, List<Asset> assets) {
         this.enabled = enabled;
         this.password = password;
         this.userName = userName;
         this.assets = assets;
     }
 
-    public User(Collection<Role> roles, Collection<Asset> assets, int enabled, String password, String userName) {
+    public User(Collection<Role> roles, List<Asset> assets, int enabled, String password, String userName) {
         this.roles = roles;
         this.assets = assets;
         this.enabled = enabled;
@@ -58,11 +59,11 @@ public class User {
         this.roles = roles;
     }
 
-    public Collection<Asset> getAssets() {
+    public List<Asset> getAssets() {
         return assets;
     }
 
-    public void setAssets(Collection<Asset> assets) {
+    public void setAssets(List<Asset> assets) {
         this.assets = assets;
     }
 

@@ -2,8 +2,10 @@ package com.artur.crypto_portfolio_tracker.service;
 
 import com.artur.crypto_portfolio_tracker.dao.UserRepository;
 import com.artur.crypto_portfolio_tracker.dto.UserDTO;
+import com.artur.crypto_portfolio_tracker.entity.Asset;
 import com.artur.crypto_portfolio_tracker.entity.Role;
 import com.artur.crypto_portfolio_tracker.entity.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -54,6 +56,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public User save(User user) {
         User dbUser = userRepository.save(user);
         return dbUser;
@@ -96,6 +99,26 @@ public class UserServiceImpl implements UserService{
 
     public List<User> findAll(){
         return userRepository.findAll();
+    }
+
+
+
+    @Override
+    @Transactional
+    public List<Asset> giveAssetsByUserId(int userId) {
+        Optional<User> result = userRepository.findById(userId);
+        User theUser = null;
+
+        if(result.isPresent()){
+            theUser = result.get();
+        }
+        else{
+            throw new RuntimeException("User not found id: "+ userId);
+        }
+
+        List<Asset> assets = theUser.getAssets();
+
+        return assets;
     }
 
 }
