@@ -35,10 +35,10 @@ The API uses Basic Authentication with BCrypt password hashing.
 | `POST` | `/api/users/{userId}/assets` | Add new coin to portfolio |  ✅ Functional |
 
 ### Assets Management (Database CRUD)
-| HTTP Method | Endpoint | Action | Status |
-| :--- | :--- | :--- | :--- |
-| `PUT` | `/api/assets/{assetId}` | Update asset record | ✅ Functional |
-| `PATCH` | `/api/assets/{assetId}` | Partially update asset quantity | 🔴 Not implemented |
+| HTTP Method | Endpoint                | Action | Status |
+| :--- |:------------------------| :--- | :--- |
+| `PUT` | `/api/assets`           | Update asset record | ✅ Functional |
+| `PATCH` | `/api/assets/{assetId}` | Partially update asset quantity |  ✅ Functional |
 | `DELETE` | `/api/assets/{assetId}` | Delete asset from DB | 🔴 Not implemented |
 
 ## Setup & Run
