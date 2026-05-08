@@ -34,4 +34,9 @@ public class AssetService {
         return assetRepository.findById(assetsId);
     }
 
+    @Transactional
+    public void deleteById(int assetId){
+        assetRepository.deleteById(assetId);
+    }
+
 }

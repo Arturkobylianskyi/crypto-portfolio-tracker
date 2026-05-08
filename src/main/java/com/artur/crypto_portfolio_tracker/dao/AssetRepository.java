@@ -10,4 +10,5 @@ import java.util.List;
 public interface AssetRepository extends JpaRepository<Asset, Integer> {
     List<Asset> findAllByUserId(int userId);
     Asset findById(int assetId);
+    void deleteById(int assetId);
 }

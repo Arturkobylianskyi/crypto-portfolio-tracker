@@ -42,6 +42,7 @@ public class CryptoPortfolioSecurityConfig {
 
                         .requestMatchers(HttpMethod.PUT, "/api/assets/**").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/assets/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/assets/**").permitAll()
 
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").hasRole("ADMIN")
                         .requestMatchers("/error").permitAll()

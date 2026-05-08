@@ -69,4 +69,12 @@ public class AssetRestController {
         return assetDTO;
     }
 
+    @DeleteMapping("/{assetId}")
+    public String deleteItem(@PathVariable int assetId){
+
+        assetService.deleteById(assetId);
+
+        return "asset with id: "+assetId +" was deleted succesfuly";
+    }
+
 }
